@@ -1,14 +1,32 @@
 <template>
-<v-app>
+    <div id="app">
+    <div class="container">
+      <div class="add-item">
 
-  
-  <v-content>
-      <v-container>
-        <router-view/>
-      </v-container>
-    </v-content>
-</v-app>
+        <button class="add-button" v-on:click="add()">+</button>
+      <input class="imput"
+      v-model="newToDo" v-on:keyup.enter="add()"
+      placeholder="add product"
+      />
+      
+      </div>
+      
+      <ul style="list-style-type: none;">
+
+        <div >
+        <li class="list-item producto" v-for="(todo,i) in existingToDo" :key="todo.id">
+          <input class="checkbox"  v-model="todo.completed" type="checkbox">
+          <span class="span">
+            {{todo.text}}
+          </span>
+          <input type="button" class="delete-button" v-on:click="deleteToDo(i)" value=""/>
+        </li>
+        </div>
+      </ul>
+    </div>
+  </div>
 </template>
+
 <script>
 export default {
     name: 'app',
@@ -22,6 +40,12 @@ export default {
         ]
       }
     },
+    created () {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  destroyed () {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
     methods:{
       add(){
         this.existingToDo.push({
@@ -32,6 +56,9 @@ export default {
       },
       deleteToDo(i){
         this.existingToDo.splice(i,1)
+      },
+      cross(){
+          this.existingToDo.style.color ="red"
       }
     }
 }
@@ -57,7 +84,8 @@ body{
   padding: 1rem 2rem;
   display: block;
   background: #fff;
-  width: 20rem;
+  width: 600px;
+  
   border-radius: 16px;
 }
 #app ul{
@@ -66,6 +94,7 @@ body{
   }
 .add-item{
   padding: 0 0 1rem 0;
+  
 }
 .add-item button{
   background: none;
@@ -111,6 +140,7 @@ body{
   position: relative;
   margin: .3rem .5rem .3rem 1.2rem;
   cursor: pointer;
+  width: 85%;
   
   
 }
@@ -120,8 +150,9 @@ body{
   margin: 0 .7rem 0 0;
   cursor: pointer;
   margin-left: 5px;
-}
-.checkbox:before{
+  background-color: transparent;
+
+}.checkbox:before{
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3 ease-in-out;
   transition: all 0.3s ease-in-out;
@@ -132,7 +163,6 @@ body{
   width: 1rem;
   height: 1rem;
   border: 2px solid #BFD7D6;
-  
 }
 .checkbox:checked:before {
 	-webkit-transform: rotate(-45deg);
@@ -144,8 +174,10 @@ body{
 	border-color: #668989;
 	border-top-style: none;
 	border-right-style: none;
+    -webkit-text-decoration: line-through wavy rgba(0, 0, 0, 0.3);
+    text-decoration: line-through wavy rgba(0, 0, 0, 0.3);
+    
 }
-
 .checkbox:after {
 	content: "";
 	position: absolute;
@@ -157,23 +189,26 @@ body{
 	cursor: pointer;
 }
 .delete-button{
-  margin-left: 0.5em;
-  background: none;
-  border: 1px solid;
-  color: inherit;
+  border: 0;
+  width: 18px;
+  height: 18px;
   padding: 0;
-  line-height: 1;
-  width: 2em;
-  height: 2em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-size: 80%;
-  
+  overflow: hidden;
+  background-color: transparent;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg fill='%23dc4771' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 174.239 174.239'%3e%3cpath d='M87.12 0C39.082 0 0 39.082 0 87.12s39.082 87.12 87.12 87.12 87.12-39.082 87.12-87.12S135.157 0 87.12 0zm0 159.305c-39.802 0-72.185-32.383-72.185-72.185S47.318 14.935 87.12 14.935s72.185 32.383 72.185 72.185-32.384 72.185-72.185 72.185z'/%3e%3cpath d='M120.83 53.414c-2.917-2.917-7.647-2.917-10.559 0L87.12 76.568 63.969 53.414c-2.917-2.917-7.642-2.917-10.559 0s-2.917 7.642 0 10.559l23.151 23.153-23.152 23.154a7.464 7.464 0 000 10.559 7.445 7.445 0 005.28 2.188 7.437 7.437 0 005.28-2.188L87.12 97.686l23.151 23.153a7.445 7.445 0 005.28 2.188 7.442 7.442 0 005.28-2.188 7.464 7.464 0 000-10.559L97.679 87.127l23.151-23.153a7.465 7.465 0 000-10.56z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  display: none;
+
+}
+.list-item:hover > .delete-button{
+    display: flex;
 }
 .imput{
   border-radius: 2em;
 }
-
+.producto{
+  color: rgba(255, 99, 71, 0.5);
+}
 </style>
