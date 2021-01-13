@@ -42,8 +42,8 @@ export default {
   width: 600px;
   height: 400px;
   background: #FFF;
-  border-radius: 16px;
   color:#668989;
+  border: 0.125em solid black;
 }
 
 .left {
