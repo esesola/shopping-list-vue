@@ -1,6 +1,18 @@
 <template>
 <v-app>
 
+  <v-toolbar class="nav">
+    <v-toolbar-tittle>
+      <div class="logo">
+        <img src="https://image.flaticon.com/icons/png/512/107/107831.png" width="50px" height="50px" alt="">
+      </div>
+    </v-toolbar-tittle>
+    <ul>
+      <li><a class="nav-btn" href="ingreso">SIGN UP</a></li>
+      <li><a class="nav-btn" href="\">HOME</a></li>
+    </ul>
+  </v-toolbar>
+  <hr>
   
   <v-content>
       <v-container>
@@ -12,32 +24,12 @@
 <script>
 export default {
     name: 'app',
-    data () {
-      return{
-        newToDo: '',
-        existingToDo:[
-          {text: 'tomates', id:0, completed: false},
-          {text: 'chocolate', id:1, completed:true},
-          {text: 'galletitas', id:2, completed:false}
-        ]
-      }
-    },
-    methods:{
-      add(){
-        this.existingToDo.push({
-          text: this.newToDo,
-          id: new Date().valueOf()
-        }),
-        this.newToDo=''
-      },
-      deleteToDo(i){
-        this.existingToDo.splice(i,1)
-      }
-    }
+
 }
 </script>
 <style>
 @import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
+
 *{
   outline: 0;
 }
@@ -54,126 +46,44 @@ body{
 #app{
   font-family: var(--font);
   margin: 2em auto;
-  padding: 1rem 2rem;
-  display: block;
-  background: #fff;
-  width: 20rem;
-  border-radius: 16px;
+  
 }
-#app ul{
-  margin: 0;
-  padding: 0 .2rem;
-  }
-.add-item{
-  padding: 0 0 1rem 0;
-}
-.add-item button{
-  background: none;
-  border: none;
-  display: table-cell;
-  vertical-align: middle;
-  border-radius: 5px;
-  padding: .5rem 0;
-  font-size: 2em;
-  cursor: pointer;
-  color: #668989;
-  transition: all .5s linear;
-  width: 10%;
-  text-align: left;
-  font-weight: 300;
-}
-.add-item button:hover{
-  color: #84AAA9;
-}
-.add-item input{
-  padding: .5rem .7rem;
-  vertical-align: middle;
-  display: table-cell;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  width: 80%;
-}
-.list-item{
-  width: 100%;
+
+.nav{
   display: flex;
   align-items: center;
-  transition: all 1s linear;
-  margin: 0 0 .5rem 0;
-  padding: .5rem 0rem;
-  border-radius: 10px 10px 10px 10px;
-  -moz-border-radius: 10px 10px 10px 10px;
-  -webkit-border-radius: 10px 10px 10px 10px;
-  border: lightgray 1px solid;
-  
-
-}
-.span{
+  justify-content: space-between;
+  padding: 25px;
+  transition: all ease .65s;
+  z-index: 100;
   position: relative;
-  margin: .3rem .5rem .3rem 1.2rem;
-  cursor: pointer;
-  
-  
-}
-.checkbox{
-  position: relative;
-  top: 0;
-  margin: 0 .7rem 0 0;
-  cursor: pointer;
-  margin-left: 5px;
-}
-.checkbox:before{
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3 ease-in-out;
-  transition: all 0.3s ease-in-out;
-  content: "";
-  position: absolute;
-  left: 0;
   z-index: 1;
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid #BFD7D6;
-  
 }
-.checkbox:checked:before {
-	-webkit-transform: rotate(-45deg);
-	-moz-transform: rotate(-45deg);
-	-ms-transform: rotate(-45deg);
-	-o-transform: rotate(-45deg);
-	transform: rotate(-45deg);
-	height: .5rem;
-	border-color: #668989;
-	border-top-style: none;
-	border-right-style: none;
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.checkbox:after {
-	content: "";
-	position: absolute;
-	top: -0.1rem;
-	left: -0.1rem;
-	width: 1.2rem;
-	height: 1.3rem;
-	background: #fff;
-	cursor: pointer;
+.nav li {
+  display: inline-block;
+  margin-right: 15px;
 }
-.delete-button{
-  margin-left: 0.5em;
-  background: none;
-  border: 1px solid;
-  color: inherit;
-  padding: 0;
-  line-height: 1;
-  width: 2em;
-  height: 2em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-size: 80%;
-  
+.nav a{
+  font: "Montserrat", sans-serif;
+  margin: 0px 1px;
+  text-decoration: none;
+  color: #000000;
+  display: inline-block;
+  border: 2px solid #000000;
+  padding: 6px 30px;
+  border-radius: 20px;
 }
-.imput{
-  border-radius: 2em;
+.nav-btn{
+  background-color:#ffffff;
+}
+hr{
+  border: 0.5px solid lightgray;
 }
 
 </style>
