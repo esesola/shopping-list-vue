@@ -14,7 +14,7 @@
       <ul style="list-style-type: none;">
 
         <div >
-        <li class="list-item producto" v-for="(todo,i) in existingToDo" :key="todo.id">
+        <li v-bind:class="['list-item', todo.completed ? 'producto' : '']" v-for="todo in lista_ordenada" :key="todo.id">
           <input class="checkbox"  v-model="todo.completed" type="checkbox">
           <span class="span">
             {{todo.text}}
@@ -50,20 +50,27 @@ export default {
       add(){
         this.existingToDo.push({
           text: this.newToDo,
-          id: new Date().valueOf()
-        }),
+          id: new Date().valueOf(),
+          completed: false
+        })
         this.newToDo=''
       },
       deleteToDo(i){
         this.existingToDo.splice(i,1)
       },
-      cross(){
-          this.existingToDo.style.color ="red"
-      }
+    },
+    computed:{
+        lista_ordenada: function(){
+            const array = this.existingToDo;
+            return array.sort(function(a,b){
+                return a.completed - b.completed;
+            });
+        }
     }
 }
 </script>
 <style>
+@import url("https://fonts.googleapis.com/css?family=Montserrat:600&display=swap");
 @import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
 *{
   outline: 0;
@@ -85,8 +92,8 @@ body{
   display: block;
   background: #fff;
   width: 600px;
+  border: 0.125em solid black;
   
-  border-radius: 16px;
 }
 #app ul{
   margin: 0;
