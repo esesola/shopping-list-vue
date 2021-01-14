@@ -14,12 +14,12 @@
       <ul style="list-style-type: none;">
 
         <div >
-        <li v-bind:class="['list-item', todo.completed ? 'producto' : '']" v-for="todo in lista_ordenada" :key="todo.id">
-          <input class="checkbox"  v-model="todo.completed" type="checkbox">
+        <li v-bind:class="['list-item', todo.completed ? 'producto' : '']" v-for="(todo,i) in lista_ordenada" :key="todo.id">
+          <input class="checkbox"  v-model="todo.completed" type="checkbox" @change="checked(todo)">
           <span class="span">
             {{todo.text}}
           </span>
-          <input type="button" class="delete-button" v-on:click="deleteToDo(i)" value=""/>
+          <input type="button" class="delete-button" v-on:click="deleteToDo(i,todo)" value=""/>
         </li>
         </div>
       </ul>
@@ -28,35 +28,66 @@
 </template>
 
 <script>
+
+import axios from "axios";
 export default {
     name: 'app',
     data () {
       return{
         newToDo: '',
         existingToDo:[
-          {text: 'tomates', id:0, completed: false},
-          {text: 'chocolate', id:1, completed:true},
-          {text: 'galletitas', id:2, completed:false}
         ]
       }
     },
     created () {
     window.addEventListener('scroll', this.handleScroll);
   },
+  mounted() {
+    axios
+    .get('http://127.0.0.1:8000/api/productos')
+    .then(response => (this.existingToDo = response))
+  },
   destroyed () {
     window.removeEventListener('scroll', this.handleScroll);
   },
     methods:{
       add(){
-        this.existingToDo.push({
-          text: this.newToDo,
-          id: new Date().valueOf(),
-          completed: false
-        })
-        this.newToDo=''
+        var post= {
+              producto:{
+                name: this.newToDo
+            }
+        }
+        axios
+        .post('http://127.0.0.1:8000/api/producto/store',post)
+        .then((result)=>{
+            var data = result.data;
+            console.log(data);
+            var todo ={
+                        text: data.name,
+                        id: data.id,
+                        completed: false
+                      }
+            this.existingToDo.push(
+                                    todo
+                                  )
+              this.newToDo=''
+          }).catch(err=>{console.log(err)});
+        
+        
       },
-      deleteToDo(i){
+      deleteToDo(i,todo){
         this.existingToDo.splice(i,1)
+        axios
+        .delete('http://127.0.0.1:8000/api/producto/'+todo.id)
+      },
+      checked(todo){
+        var body= {
+              producto:{
+                completed: todo.completed
+            }
+        }
+        axios
+        .put('http://127.0.0.1:8000/api/producto/'+todo.id,body)
       },
     },
     computed:{
