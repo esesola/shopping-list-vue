@@ -45,7 +45,17 @@ export default {
   mounted() {
     axios
     .get('http://127.0.0.1:8000/api/productos')
-    .then(response => (this.existingToDo = response))
+    .then(response => {
+      console.log('Response OK');
+      console.log(response.data);
+      let list = response.data.map(p => {return {text:p.name, completed: p.completed, id:p.id};})
+      list.forEach(element => {
+        this.existingToDo.push(element)
+      });
+      }).catch(error => {
+          console.log('Mal');
+          console.log(error)
+      });
   },
   destroyed () {
     window.removeEventListener('scroll', this.handleScroll);
